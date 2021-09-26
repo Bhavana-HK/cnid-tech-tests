@@ -5,13 +5,22 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Article } from '../redux/types';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCurrentArticle } from '../redux/slice';
+import { useHistory } from 'react-router';
 
 export const ArticleBox: FC<{ article: Article }> = ({ article }) => {
   const { description, publishedAt, title, urlToImage } = article;
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const handleClick = useCallback(() => {
+    dispatch(setCurrentArticle(article));
+    history.push('/article');
+  }, [dispatch, article, history]);
   return (
-    <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="#">
+    <Grid item xs={12} md={6} xl={4}>
+      <CardActionArea component="a" onClick={handleClick}>
         <Card sx={{ display: 'flex' }}>
           <CardContent sx={{ flex: 1 }}>
             <Typography component="h2" variant="h5">

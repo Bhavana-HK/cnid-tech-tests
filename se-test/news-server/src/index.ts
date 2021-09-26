@@ -32,9 +32,8 @@ const main = async () => {
         })
     );
 
-    const errorHandler: ErrorRequestHandler = (error, _req, res) => {
-        console.error(error);
-        res.status(500).send({ error });
+    const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+        res.status(500).send({ error: error.message });
     };
 
     app.use('/', routes);

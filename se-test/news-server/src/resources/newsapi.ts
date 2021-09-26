@@ -21,12 +21,10 @@ export const getTopHeadlines = (
 export const getEverythingNews = (
     params: NewsApiEverythingParams
 ): Promise<Article[]> => {
-    return newsapi.v2
-        .everything(params)
-        .then((response: NewsApiResponse) => {
-            if (response.status === 'ok') return response.articles;
-            else throw new Error(response.error);
-        })
+    return newsapi.v2.everything(params).then((response: NewsApiResponse) => {
+        if (response.status === 'ok') return response.articles;
+        else throw new Error(response.error);
+    });
 };
 
 /* export const getNewsFromSources = (

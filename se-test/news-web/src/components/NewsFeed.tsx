@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import { FC, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { newsFeedRequest } from '../redux/slice';
@@ -23,10 +24,10 @@ export const NewsFeed: FC = () => {
   if (error) return <div>Error! {error}</div>;
   if (!articles.length) return <div>No articles found!</div>;
   return (
-    <>
+    <Grid container spacing={2}>
       {articles.map((article: Article, index: number) => (
         <ArticleBox article={article} key={index} />
       ))}
-    </>
+    </Grid>
   );
 };

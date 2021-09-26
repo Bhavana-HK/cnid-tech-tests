@@ -16,8 +16,8 @@ export const fetchNewsArticles = (page = 1) => {
 
 export const searchNewsArticles = (key: string, page = 1) => {
   const payload: AxiosRequestConfig = {
-    url: baseUrl + endpoints.search + key,
-    params: { page },
+    url: baseUrl + endpoints.search,
+    params: { key, page },
     method: 'GET',
   };
   return request(payload);

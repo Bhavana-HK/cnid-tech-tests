@@ -14,9 +14,7 @@ const getTopHeadlines = (params) => {
 };
 exports.getTopHeadlines = getTopHeadlines;
 const getEverythingNews = (params) => {
-    return newsapi.v2
-        .everything(params)
-        .then((response) => {
+    return newsapi.v2.everything(params).then((response) => {
         if (response.status === 'ok')
             return response.articles;
         else
