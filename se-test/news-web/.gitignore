@@ -11,6 +11,9 @@
 # production
 /build
 
+dist/
+/dist
+
 # IDEs and editors
 /.idea
 /.vscode
