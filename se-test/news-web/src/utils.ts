@@ -1,4 +1,5 @@
 import { LoremIpsum } from 'lorem-ipsum';
+import { useLocation } from 'react-router';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -12,3 +13,7 @@ const lorem = new LoremIpsum({
 });
 
 export const getLorem = () => lorem.generateParagraphs(4);
+
+export const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};

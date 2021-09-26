@@ -12,12 +12,14 @@ export type Article = {
   content: string;
 };
 
+export type Feed = {
+  loading: boolean;
+  error: string | null;
+  articles: Article[];
+};
+
 export interface NewsState {
-  newsFeed: {
-    loading: boolean;
-    error: string | null;
-    articles: Article[];
-  };
-  searchTerm: string;
+  newsFeed: Feed;
+  searchFeed: Feed;
   currentArticle: Article | null;
 }

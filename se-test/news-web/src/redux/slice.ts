@@ -8,7 +8,11 @@ const initialState: NewsState = {
     error: null,
     loading: false,
   },
-  searchTerm: '',
+  searchFeed: {
+    articles: [],
+    error: null,
+    loading: false,
+  },
   currentArticle: null,
 };
 
@@ -31,8 +35,20 @@ export const newsSlice = createSlice({
       state.newsFeed.error = payload;
       state.newsFeed.loading = false;
     },
-    setSearchTerm: (state: NewsState, { payload }: PayloadAction<string>) => {
-      state.searchTerm = payload;
+    searchFeedStart: (state: NewsState) => {
+      state.searchFeed.loading = true;
+    },
+    searchFeedSuccess: (
+      state: NewsState,
+      { payload }: PayloadAction<Article[]>
+    ) => {
+      state.searchFeed.articles = payload;
+      state.searchFeed.error = null;
+      state.searchFeed.loading = false;
+    },
+    searchFeedFail: (state: NewsState, { payload }: PayloadAction<string>) => {
+      state.searchFeed.error = payload;
+      state.searchFeed.loading = false;
     },
     setCurrentArticle: (
       state: NewsState,
@@ -47,11 +63,15 @@ export const {
   newsFeedStart,
   newsFeedFail,
   newsFeedSuccess,
-  setSearchTerm,
   setCurrentArticle,
+  searchFeedFail,
+  searchFeedStart,
+  searchFeedSuccess,
 } = newsSlice.actions;
 
 export const newsFeedRequest = createAction('saga/newsFeedRequest');
-export const searchArticleRequest = createAction('saga/searchArticleRequest');
+export const searchArticleRequest = createAction<{ key: string }>(
+  'saga/searchArticleRequest'
+);
 
 export default newsSlice.reducer;

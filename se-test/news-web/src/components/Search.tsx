@@ -2,27 +2,36 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { FC, FormEventHandler, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { searchArticleRequest, setSearchTerm } from '../redux/slice';
+import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react';
 import { InputAdornment } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useHistory } from 'react-router';
+import { useQuery } from '../utils';
 
 export const Search: FC = () => {
-  const dispatch = useDispatch();
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    ({ target }) => {
-      dispatch(setSearchTerm(target.value));
-    },
-    [dispatch]
-  );
+  const query = useQuery();
+  const key = query.get('term');
+  const [value, setValue] = useState('');
+  const history = useHistory();
+
+  useEffect(() => {
+    console.log('in search term', key);
+    if (key) setValue(key);
+  }, [key]);
 
   const handleSearch: FormEventHandler = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(searchArticleRequest());
+      history.push('/search?term=' + encodeURI(value));
     },
-    [dispatch]
+    [value]
+  );
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+    ({ target }) => {
+      setValue(target.value);
+    },
+    [setValue]
   );
 
   return (
@@ -40,6 +49,7 @@ export const Search: FC = () => {
         placeholder="Search Articles"
         fullWidth
         inputProps={{ 'aria-label': 'search articles' }}
+        value={value}
         onChange={handleChange}
         endAdornment={
           <InputAdornment position="end">

@@ -4,11 +4,15 @@ import {
   newsFeedStart,
   newsFeedSuccess,
   searchArticleRequest,
+  searchFeedFail,
+  searchFeedStart,
+  searchFeedSuccess,
 } from './slice';
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { Article } from './types';
 import { fetchNewsArticles, searchNewsArticles } from './api';
 import { RootState } from './state';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function* newsFeedSaga() {
   try {
@@ -20,16 +24,17 @@ function* newsFeedSaga() {
   }
 }
 
-function* searchNewsSaga() {
+function* searchNewsSaga({ payload }: PayloadAction<{ key: string }>) {
   try {
-    yield put(newsFeedStart());
-    const key: string = yield select(
-      (state: RootState) => state.news.searchTerm
+    yield put(searchFeedStart());
+    const { key } = payload;
+    const response: { articles: Article[] } = yield call(
+      searchNewsArticles,
+      key
     );
-    const response: { articles: Article[] } = yield call(searchNewsArticles, key);
-    yield put(newsFeedSuccess(response.articles));
+    yield put(searchFeedSuccess(response.articles));
   } catch (error) {
-    yield put(newsFeedFail(`An error occurred`));
+    yield put(searchFeedFail(`An error occurred`));
   }
 }
 

@@ -15,7 +15,7 @@ export const App: FC = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
+      <Box sx={{ my: 4, mb:5 }}>
         <Box display="flex">
           <Typography
             variant="h4"
