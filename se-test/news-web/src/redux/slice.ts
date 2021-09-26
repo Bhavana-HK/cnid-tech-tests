@@ -43,9 +43,10 @@ export const newsSlice = createSlice({
       state: NewsState,
       { payload }: PayloadAction<Article[]>
     ) => {
-      state.searchFeed.articles = payload;
+      state.searchFeed.articles =  [...state.searchFeed.articles, ...payload];
       state.searchFeed.error = null;
       state.searchFeed.loading = false;
+      state.searchFeed.lastResultCount = payload.length;
     },
     searchFeedFail: (state: NewsState, { payload }: PayloadAction<string>) => {
       state.searchFeed.error = payload;
@@ -73,7 +74,7 @@ export const {
 export const newsFeedRequest = createAction<{ page: number }>(
   'saga/newsFeedRequest'
 );
-export const searchArticleRequest = createAction<{ key: string }>(
+export const searchArticleRequest = createAction<{ key: string, page:number }>(
   'saga/searchArticleRequest'
 );
 

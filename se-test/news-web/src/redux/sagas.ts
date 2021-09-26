@@ -31,13 +31,16 @@ function* newsFeedSaga({ payload }: PayloadAction<{ page: number }>) {
   }
 }
 
-function* searchNewsSaga({ payload }: PayloadAction<{ key: string }>) {
+function* searchNewsSaga({
+  payload,
+}: PayloadAction<{ key: string; page: number }>) {
   try {
     yield put(searchFeedStart());
-    const { key } = payload;
+    const { key, page } = payload;
     const response: { articles: Article[] } = yield call(
       searchNewsArticles,
-      key
+      key,
+      page
     );
     yield put(searchFeedSuccess(response.articles));
   } catch (error) {
