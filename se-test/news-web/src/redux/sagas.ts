@@ -8,10 +8,9 @@ import {
   searchFeedStart,
   searchFeedSuccess,
 } from './slice';
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { Article } from './types';
 import { fetchNewsArticles, searchNewsArticles } from './api';
-import { RootState } from './state';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 function* newsFeedSaga({ payload }: PayloadAction<{ page: number }>) {
@@ -42,7 +41,9 @@ function* searchNewsSaga({
       key,
       page
     );
-    yield put(searchFeedSuccess(response.articles));
+    yield put(
+      searchFeedSuccess({ articles: response.articles, searchKey: key })
+    );
   } catch (error) {
     yield put(searchFeedFail(`An error occurred`));
   }

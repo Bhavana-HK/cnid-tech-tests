@@ -22,9 +22,15 @@ export const useQuery = () => {
 export const useFetch = (
   callback: (page: number) => void,
   loading: boolean,
+  key: string,
   lastResultCount?: number
 ) => {
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+    callback(1);
+  }, [key]);
 
   useEffect(() => {
     const handleScroll = () => {

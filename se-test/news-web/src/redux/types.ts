@@ -21,6 +21,6 @@ export type Feed = {
 
 export interface NewsState {
   newsFeed: Feed;
-  searchFeed: Feed;
+  searchFeed: Feed & { lastKey: string };
   currentArticle: Article | null;
 }

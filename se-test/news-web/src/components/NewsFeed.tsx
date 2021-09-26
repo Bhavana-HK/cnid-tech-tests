@@ -18,11 +18,7 @@ export const NewsFeed: FC = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    if (!articles.length) requestItems(1);
-  }, [requestItems, articles]);
-
-  useFetch(requestItems, loading, lastResultCount);
+  useFetch(requestItems, loading, '', lastResultCount);
 
   return (
     <NewsContainer
