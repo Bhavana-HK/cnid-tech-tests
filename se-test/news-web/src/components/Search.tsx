@@ -15,7 +15,6 @@ export const Search: FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('in search term', key);
     if (key) setValue(key);
   }, [key]);
 

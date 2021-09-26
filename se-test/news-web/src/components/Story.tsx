@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { RootState } from '../redux/state';
 import { getLorem } from '../utils';
 
-export const Main: FC = () => {
+export const Story: FC = () => {
   const article = useSelector((state: RootState) => state.news.currentArticle);
   if (article === null) return <Redirect to="/" />;
   else {
