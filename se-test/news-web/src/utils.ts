@@ -55,3 +55,8 @@ export const useFetch = (
     };
   }, [setPage, page, lastResultCount, loading]);
 };
+
+export const getFormattedTime = (time:string)=>{
+  const date = new Date(time);
+  return date.toUTCString();
+}

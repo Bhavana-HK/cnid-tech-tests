@@ -9,6 +9,7 @@ import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCurrentArticle } from '../redux/slice';
 import { useHistory } from 'react-router';
+import { getFormattedTime } from '../utils';
 
 export const ArticleBox: FC<{ article: Article }> = ({ article }) => {
   const { description, publishedAt, title, urlToImage } = article;
@@ -27,7 +28,7 @@ export const ArticleBox: FC<{ article: Article }> = ({ article }) => {
               {title}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              {publishedAt}
+              {getFormattedTime(publishedAt)}
             </Typography>
             <Typography variant="subtitle1" paragraph>
               {description}
