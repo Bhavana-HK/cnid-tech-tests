@@ -1,21 +1,45 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { newsFeedRequest } from '../redux/slice';
 import { RootState } from '../redux/state';
 import { NewsContainer } from './NewsContainer';
 
 export const NewsFeed: FC = () => {
+  const [page, setPage] = useState(1);
+
   const dispatch = useDispatch();
-  const { articles, loading, error } = useSelector(
+  const { articles, loading, error, lastResultCount } = useSelector(
     (app: RootState) => app.news.newsFeed
   );
-  const requestItems = useCallback(() => {
-    if (!articles.length) dispatch(newsFeedRequest());
-  }, [dispatch]);
+
+  const requestItems = useCallback(
+    (page) => {
+      dispatch(newsFeedRequest({ page }));
+    },
+    [dispatch, page]
+  );
 
   useEffect(() => {
-    requestItems();
-  }, [requestItems]);
+    if (!articles.length) requestItems(1);
+  }, [requestItems, articles]);
 
-  return <NewsContainer articles={articles} error={error} loading={loading} />;
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight &&
+        lastResultCount && !loading
+      ) {
+        const newPage = page + 1;
+        setPage(newPage);
+        requestItems(newPage);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [setPage, page, lastResultCount, loading]);
+
+  return <NewsContainer articles={articles} error={error} loading={loading} lastResultCount={lastResultCount} />;
 };

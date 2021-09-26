@@ -1,5 +1,5 @@
 import { Box, Divider, Link, Paper, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { RootState } from '../redux/state';
@@ -7,7 +7,13 @@ import { getLorem } from '../utils';
 
 export const Story: FC = () => {
   const article = useSelector((state: RootState) => state.news.currentArticle);
+  
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
+
   if (article === null) return <Redirect to="/" />;
+  
   else {
     const { author, content, publishedAt, source, title, url, urlToImage } =
       article;

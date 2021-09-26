@@ -16,6 +16,7 @@ export type Feed = {
   loading: boolean;
   error: string | null;
   articles: Article[];
+  lastResultCount?: number;
 };
 
 export interface NewsState {

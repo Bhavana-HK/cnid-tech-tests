@@ -14,13 +14,20 @@ import { fetchNewsArticles, searchNewsArticles } from './api';
 import { RootState } from './state';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-function* newsFeedSaga() {
+function* newsFeedSaga({ payload }: PayloadAction<{ page: number }>) {
   try {
     yield put(newsFeedStart());
-    const response: { articles: Article[] } = yield call(fetchNewsArticles);
+    const { page = 1 } = payload;
+    const response: { articles: Article[] } = yield call(
+      fetchNewsArticles,
+      page
+    );
     yield put(newsFeedSuccess(response.articles));
-  } catch (error) {
-    yield put(newsFeedFail(`An error occurred`));
+  } catch (err) {
+    const error: any = err;
+    yield put(
+      newsFeedFail(error?.response?.data?.error || 'An error occurred')
+    );
   }
 }
 
